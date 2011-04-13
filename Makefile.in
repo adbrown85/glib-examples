@@ -17,8 +17,8 @@ programs = ${notdir ${subst .c,,$(sources)}}
 
 # Tools
 CC       = @CC@
-INCLUDES = -I$(srcdir)
-CFLAGS   = @CFLAGS@ $(INCLUDES)
+CFLAGS   = @CFLAGS@ -I$(srcdir) @DEPS_CFLAGS@
+LIBS     = @DEPS_LIBS@
 INSTALL  = @INSTALL@
 
 # Interface
@@ -37,4 +37,4 @@ clean:
 programs: $(programs)
 %: %.c %.h
 	@echo "  CC      $@"
-	@$(CC) $(CFLAGS) $< -o $(builddir)/$@
+	@$(CC) $(CFLAGS) $< -o $(builddir)/$@ $(LIBS)
