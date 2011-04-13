@@ -1,4 +1,9 @@
 .cproject
 .project
 build/
-
+autom4te.cache/
+install-sh
+configure
+config.log
+config.status
+Makefile

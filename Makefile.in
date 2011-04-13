@@ -1,3 +1,10 @@
+# @configure_input@
+
+# Package
+package  = @PACKAGE_NAME@
+version  = @PACKAGE_VERSION@
+tarname  = @PACKAGE_TARNAME@
+
 # Directories
 srcdir   = src
 builddir = build
@@ -9,24 +16,25 @@ headers  = ${subst .c,.h,$(sources)}
 programs = ${notdir ${subst .c,,$(sources)}}
 
 # Tools
-CC       = gcc
-CFLAGS   = -g -I$(srcdir)
-MKDIR    = mkdir -p
+CC       = @CC@
+INCLUDES = -I$(srcdir)
+CFLAGS   = @CFLAGS@ $(INCLUDES)
+INSTALL  = @INSTALL@
 
 # Interface
 .PHONY: all init clean
 .DEFAULT: all
 all: init programs
-init: $(builddir)
-	@echo "  MKDIR $(builddir)"
-	@$(MKDIR) $(builddir)
+init:
+	@echo "  INSTALL $(builddir)"
+	@$(INSTALL) -d $(builddir)
 clean:
-	@echo "  RM    $(builddir)"
+	@echo "  RM      $(builddir)"
 	@$(RM) -r $(builddir)
 
 # Programs
 .PHONY: programs
 programs: $(programs)
 %: %.c %.h
-	@echo "  CC    $@"
+	@echo "  CC      $@"
 	@$(CC) $(CFLAGS) $< -o $(builddir)/$@
